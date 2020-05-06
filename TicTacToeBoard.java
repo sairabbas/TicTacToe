@@ -1,6 +1,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.*;
@@ -83,7 +84,8 @@ public class TicTacToeBoard extends JFrame implements ItemListener, ActionListen
      *
      */
     @Override
-    public void itemStateChanged(ItemEvent e) {
+    public void itemStateChanged(ItemEvent e)
+    {
         if (strategy1.getState()) {
             System.out.println(strategy1.getState());
             strategyType="style1";
@@ -98,7 +100,6 @@ public class TicTacToeBoard extends JFrame implements ItemListener, ActionListen
         remove(strategy2);
         repaint(0, 0, 330, 450);
 
-
         displayBoard();
     }
     /**
@@ -110,9 +111,10 @@ public class TicTacToeBoard extends JFrame implements ItemListener, ActionListen
      * IF the user chooses second style - SecondBoardStyle is used
      * This method is used to display the board with updated behavior provided by strategy.
      */
-    public void displayBoard() {
+    public void displayBoard()
+    {
         int i, j, ii, jj, x, y, yesnull;
-        JButton b[] = new JButton[9];
+        JButton[] b = new JButton[9];
         JButton undo;
         x = 10;
         y = 10;
@@ -120,7 +122,6 @@ public class TicTacToeBoard extends JFrame implements ItemListener, ActionListen
         for (i = 0; i <= 8; i++, x += 100, j++) {
             b[i] = new JButton();
             Border line = new LineBorder(Color.BLACK);
-
             Border margin = new EmptyBorder(5, 15, 5, 15);
             Border compound = new CompoundBorder(line, margin);
             b[i].setBorder(compound);
@@ -135,19 +136,26 @@ public class TicTacToeBoard extends JFrame implements ItemListener, ActionListen
             }
             b[i].setBounds(x, y, 100, 100);
             add(b[i]);
-            b[i].addActionListener(this);
+
+            //Controller that takes in user input
+            int position = i;
+            b[i].addActionListener(new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent)
+                {
+                    model.updateState(position, 1);
+                    //Testing to see data in model during run
+                    System.out.println(Arrays.toString(model.getState()));
+                }
+            });//end of Controller
+
         } // eof for
 
         undo = new JButton("Undo");
         undo.setBounds(100, 350, 100, 50);
         add(undo);
         undo.addActionListener(this);
-
-        //Controller class that handles user input
-        class Controller
-        {
-            
-        }//end of Controller class
     }// eof showButton
 
     //Updates the graphical view whenever input occurs

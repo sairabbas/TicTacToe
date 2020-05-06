@@ -21,9 +21,6 @@ public class TicTacToeBoard extends JFrame implements ItemListener, ActionListen
     //Declare global model variable
     Model model;
 
-    //Declare controller object
-    Controller controller = new Controller();
-
     //Strategy type identified from GUI, this is associated with radio button.
     String strategyType;
 
@@ -68,33 +65,6 @@ public class TicTacToeBoard extends JFrame implements ItemListener, ActionListen
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//eof constructor
-
-    //Controller class that handles user input
-    class Controller extends MouseAdapter
-    {
-        int turn = 0;
-        public Controller()
-        {
-            addMouseListener(new MouseAdapter()
-            {
-                @Override
-                public void mousePressed(MouseEvent e)
-                {
-                    //Decides if it is X or O turn
-                    if (turn == 0)
-                        turn = 1;
-                    if (turn == 1)
-                        turn = 0;
-                    //Calculate data from where mouse was clicked on board and sends to model
-                    super.mousePressed(e);
-                    if (e.getX() >= 100 && e.getY() >= 100)
-                        model.updateState(0, 0, turn);
-                    //Testing to see click location
-                    System.out.println(e.getLocationOnScreen());
-                }
-            });
-        }
-    }
 
     /**
      * This method is implementation of ActionListener interface extended by this class.
@@ -173,7 +143,11 @@ public class TicTacToeBoard extends JFrame implements ItemListener, ActionListen
         add(undo);
         undo.addActionListener(this);
 
-
+        //Controller class that handles user input
+        class Controller
+        {
+            
+        }//end of Controller class
     }// eof showButton
 
     //Updates the graphical view whenever input occurs

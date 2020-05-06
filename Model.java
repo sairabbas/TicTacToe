@@ -1,18 +1,18 @@
 import java.util.Observable;
 public class Model extends Observable
 {
-    int state[][];
+    int state[];
     public Model()
     {
-        state = new int[3][3];
+        state = new int[9];
     }
-    public int[][] getState()
+    public int[] getState()
     {
         return state;
     }
-    public void updateState(int row, int col, int value)
+    public void updateState(int position, int value)
     {
-        state[row][col] = value;
+        state[position] = value;
         setChanged();
         notifyObservers();
     }

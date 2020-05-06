@@ -1,5 +1,3 @@
-package com.company;
-
 
 /**
  * This is Strategy Interface . Subclasses (FirstBoardStyle.java & SecondBoardStyle.java)

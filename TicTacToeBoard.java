@@ -1,4 +1,3 @@
-package com.company;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -65,7 +64,9 @@ public class TicTacToeBoard extends JFrame implements ItemListener, ActionListen
      *This method is dummy method and shall be used during MVC implementation
      */
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e)
+    {
+
     }
     /**
      *
@@ -104,7 +105,7 @@ public class TicTacToeBoard extends JFrame implements ItemListener, ActionListen
     public void displayBoard() {
         int i, j, ii, jj, x, y, yesnull;
         JButton b[] = new JButton[9];
-        JButton reset;
+        JButton undo;
         x = 10;
         y = 10;
         j = 0;
@@ -129,10 +130,10 @@ public class TicTacToeBoard extends JFrame implements ItemListener, ActionListen
             b[i].addActionListener(this);
         } // eof for
 
-        reset = new JButton("RESET");
-        reset.setBounds(100, 350, 100, 50);
-        add(reset);
-        reset.addActionListener(this);
+        undo = new JButton("Undo");
+        undo.setBounds(100, 350, 100, 50);
+        add(undo);
+        undo.addActionListener(this);
 
     }// eof showButton
 

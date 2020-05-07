@@ -145,18 +145,27 @@ public class TicTacToeBoard extends JFrame implements ItemListener, ActionListen
                 public void actionPerformed(ActionEvent actionEvent)
                 {
                     model.updateState(position, 1);
-                    //Testing to see data in model during run
+                    //Testing to see if data in model updates
                     System.out.println(Arrays.toString(model.getState()));
                 }
             });//end of Controller
 
         } // eof for
 
+        //Undo function to go back previous state
         undo = new JButton("Undo");
         undo.setBounds(100, 350, 100, 50);
         add(undo);
-        undo.addActionListener(this);
-    }// eof showButton
+        undo.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent)
+            {
+                model.undoState();
+            }
+        });//end of Undo
+
+    }//end of displayBoard
 
     //Updates the graphical view whenever input occurs
     @Override

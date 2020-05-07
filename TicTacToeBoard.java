@@ -14,11 +14,12 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
     
     private JFrame frame;
     private Model model;
-    private JButton[][] buttons;
+  
     private JButton reset;
-    private JTextArea playerturn;
+  
     private JButton b[] ;
-    private int count = 0;
+    private JButton undo;
+  
 
     // Strategy type identified from GUI, this is associated with radio button.
     String strategyType;
@@ -37,12 +38,12 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
     TicTacToeBoard() {
         model = new Model();
         frame = new JFrame("Tic Tac Toe");
-        buttons = new JButton[3][3];
         reset = new JButton("Reset");
-        playerturn = new JTextArea();
+        undo = new JButton("UNDO");
+       
         
        
-        this.buttons = new JButton[3][3];
+        
 
         // CheckboxGroup cbg = new CheckboxGroup();
         strategy1 = new JButton("Board Style 1");
@@ -71,7 +72,7 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("here");
+        
         JButton check = (JButton) (e.getSource());
         if (check.getText() == "Board Style 1") {
             strategyType = "style1";
@@ -139,7 +140,7 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
             b[i].setBounds(x, y, 100, 100);
             frame.add(b[i]);
            // button = b[i]
-            count = i;
+           
            
             
             
@@ -152,16 +153,33 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
                     
                  JButton but = new JButton();
                  but = (JButton)e.getSource();
-                 if(but.getText().equals("") )
+                 if(but.getText().equals("") && model.getWinner() == false )
                    {
                      
                        (but).setText(model.getCurrPlayer());
+                       for(int i=0;i<b.length;i++){
+                           if(e.getSource()==b[i]){
+                               
+                          model.update(i);
+                           }
+                       }
+                           model.isWinner();
+                     
+                       
                        model.changePlayer();
+                      
+                           
+                          
+                         
+                          
+                           }
+                      
                        
                    }
                 }
         
-            });
+            
+        );
            
             
            
@@ -170,7 +188,10 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
         
     
         reset = new JButton("RESET");
-        reset.setBounds(100, 350, 100, 50);
+        reset.setBounds(50, 350, 100, 50);
+        undo.setBounds(200, 350, 100, 50);
+        frame.add(undo);
+        undo.addActionListener(this);
         frame.add(reset);
         reset.addActionListener(new ActionListener()
                 
@@ -178,9 +199,11 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        model = new Model();
                         for (int i = 0; i <= 8; i++) {
                             b[i].setText("");
                         }
+                       
                         
                        
                         

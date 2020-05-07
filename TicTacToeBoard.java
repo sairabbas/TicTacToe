@@ -19,7 +19,7 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
   
     private JButton b[] ;
     private JButton undo;
-  
+    private int limit = 0;
 
     // Strategy type identified from GUI, this is associated with radio button.
     String strategyType;
@@ -117,13 +117,9 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
         y = 10;
         j = 0;
         for (int i = 0; i <= 8; i++, x += 100, j++) {
-            
             b[i] = new JButton();
             JButton button = new JButton();
-           
             Border line = new LineBorder(Color.BLACK);
-            
-
             Border margin = new EmptyBorder(5, 15, 5, 15);
             Border compound = new CompoundBorder(line, margin);
             b[i].setText("");
@@ -139,46 +135,37 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
             }
             b[i].setBounds(x, y, 100, 100);
             frame.add(b[i]);
+
            // button = b[i]
-           
-           
-            
-            
             b[i].addActionListener(new ActionListener()
             {
-
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    
-                    
-                 JButton but = new JButton();
-                 but = (JButton)e.getSource();
-                 if(but.getText().equals("") && model.getWinner() == false )
-                   {
-                     
-                       (but).setText(model.getCurrPlayer());
-                       for(int i=0;i<b.length;i++){
-                           if(e.getSource()==b[i]){
-                               
-                          model.update(i);
+                public void actionPerformed(ActionEvent e)
+                {
+                     JButton but = new JButton();
+                     but = (JButton)e.getSource();
+                     if(but.getText().equals("") && model.getWinner() == false )
+                       {
+                           (but).setText(model.getCurrPlayer());
+                           for(int i=0;i<b.length;i++)
+                           {
+                               if(e.getSource()==b[i])
+                               {
+                                   model.update(i);
+                               }
                            }
-                       }
                            model.isWinner();
-                     
-                       
-                       model.changePlayer();
-                      
-                           
-                          
-                         
-                          
-                           }
-                      
-                       
-                   }
+                           model.changePlayer();
+                        }
+                     if (limit > 2)
+                     {
+                         undo.setEnabled(false);
+                         limit = 0;
+                     }
+                     else
+                         undo.setEnabled(true);
                 }
-        
-            
+            }
         );
            
             
@@ -191,7 +178,16 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
         reset.setBounds(50, 350, 100, 50);
         undo.setBounds(200, 350, 100, 50);
         frame.add(undo);
-        undo.addActionListener(this);
+        undo.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                b[model.getPreviousMove()].setText("");
+                model.changePlayer();
+                undo.setEnabled(false);
+                limit++;
+            }
+        });
         frame.add(reset);
         reset.addActionListener(new ActionListener()
                 
@@ -203,10 +199,8 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
                         for (int i = 0; i <= 8; i++) {
                             b[i].setText("");
                         }
-                       
-                        
-                       
-                        
+                        limit = 0;
+                        undo.setEnabled(true);
                     }
             
                 });

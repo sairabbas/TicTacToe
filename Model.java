@@ -6,7 +6,7 @@ public class Model {
    
     private String currPlayer;
     private boolean isWinner;
-    private int moves = 0;
+    private int moves = 0, previousMove = 0;
     public Model()
     {
        board = new String[9];
@@ -38,40 +38,27 @@ public class Model {
     {
         return currPlayer;
     }
-   
-    
-    public void ResetBoard()
-    {
-        currPlayer = "X";
-        isWinner = false;
-        for(int i=0; i<board.length;i++) {
-            for(int j=0; j<board.length;j++) {
-                board[i] = "";
-            }
-        }
-        
-    }
     public void update(int index)
     {
-        
         board[index] = currPlayer;
-       
-       
-        
+        previousMove = index;
+    }
+    public int getPreviousMove()
+    {
+        moves--;
+        board[previousMove] = "";
+        return previousMove;
     }
     public boolean getWinner()
     
     {
-       
         return isWinner;
     }
     
     public void isWinner()
     {
         moves++;
-       
-        
-      
+
         if(board[0].equals(currPlayer)  &&  board[1].equals(currPlayer) && board[2].equals(currPlayer))
         {
           

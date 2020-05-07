@@ -1,13 +1,11 @@
-
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
-        Model model = new Model();
+    // write your code here
         TicTacToeBoard board= new TicTacToeBoard();
+
     }
 
 
 
 }
-

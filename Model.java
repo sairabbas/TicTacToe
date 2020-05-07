@@ -1,32 +1,106 @@
-import java.util.Observable;
-public class Model extends Observable
-{
-    int state[], previousState[], update = 0, previousUpdate = 0;
+import javax.swing.JOptionPane;
+
+public class Model {
+    
+    private String[] board;
+    private int moves;
+    private String currPlayer;
+    private boolean isWinner;
     public Model()
     {
-        state = new int[9];
-        previousState = new int[9];
+       board = new String[8];
+        moves = 9;
+        currPlayer = "X";
+        isWinner = false;
     }
-    public int[] getState()
+    
+    public void changePlayer()
     {
-        return state;
-    }
-    public void updateState(int position, int value)
-    {
-        state[position] = value;
-        update++;
-        if (previousUpdate == update - 1)
+        if(currPlayer.equals("0"))
         {
-            previousState = state;
-            previousUpdate++;
+            currPlayer = "X";
         }
-        setChanged();
-        notifyObservers();
+        else
+        {
+            currPlayer = "0";
+        }
+    
+        
     }
-    public void undoState()
+    public String getCurrPlayer()
     {
-        state = previousState;
-        setChanged();
-        notifyObservers();
+        return currPlayer;
     }
+   
+    
+    public void ResetBoard()
+    {
+        currPlayer = "X";
+        isWinner = false;
+        for(int i=0; i<board.length;i++) {
+            for(int j=0; j<board.length;j++) {
+                board[i] = "";
+            }
+        }
+        
+    }
+    public boolean getWinner()
+    {
+        return isWinner;
+    }
+    
+    public void isWinner()
+    {
+        if(board[0].equals(currPlayer)  &&  board[1].equals(currPlayer) && board[2].equals(currPlayer))
+        {
+            JOptionPane.showMessageDialog(null, "Player" + currPlayer + "has won");
+            isWinner = true;
+            
+        }
+        else if(board[0].equals(currPlayer)  &&  board[3].equals(currPlayer) && board[6].equals(currPlayer))
+        {
+            JOptionPane.showMessageDialog(null, "Player" + currPlayer + "has won");
+            isWinner = true;
+            
+        }
+        else if(board[6].equals(currPlayer)  &&  board[7].equals(currPlayer) && board[8].equals(currPlayer))
+        {
+            JOptionPane.showMessageDialog(null, "Player" + currPlayer + "has won");
+            isWinner = true;
+            
+        }
+        else if(board[2].equals(currPlayer)  &&  board[5].equals(currPlayer) && board[8].equals(currPlayer))
+        {
+            JOptionPane.showMessageDialog(null, "Player" + currPlayer + "has won");
+            isWinner = true;
+            
+        }
+        else if(board[3].equals(currPlayer)  &&  board[4].equals(currPlayer) && board[5].equals(currPlayer))
+        {
+            JOptionPane.showMessageDialog(null, "Player" + currPlayer + "has won");
+            isWinner = true;
+            
+        }
+        else if(board[0].equals(currPlayer)  &&  board[4].equals(currPlayer) && board[8].equals(currPlayer))
+        {
+            JOptionPane.showMessageDialog(null, "Player" + currPlayer + "has won");
+            isWinner = true;
+            
+        }
+        else if(board[1].equals(currPlayer)  &&  board[4].equals(currPlayer) && board[7].equals(currPlayer))
+        {
+            JOptionPane.showMessageDialog(null, "Player" + currPlayer + "has won");
+            isWinner = true;
+            
+        }
+        else if(board[2].equals(currPlayer)  &&  board[4].equals(currPlayer) && board[6].equals(currPlayer))
+        {
+            JOptionPane.showMessageDialog(null, "Player" + currPlayer + "has won");
+            isWinner = true;
+            
+        }
+        
+       
+    }
+
 }

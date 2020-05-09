@@ -9,27 +9,22 @@ import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
 
-public class TicTacToeBoard extends JFrame implements ActionListener {
+public class TicTacToeBoard extends JFrame implements ActionListener
+{
     JButton strategy1, strategy2;
-    
     private JFrame frame;
     private Model model;
-  
     private JButton reset;
-  
     private JButton b[] ;
     private JButton undo;
+    private JTextField display;
     private int limit = 0;
-
     // Strategy type identified from GUI, this is associated with radio button.
     String strategyType;
-
     // Strategy that shall be used will be decided during runtime
     BoardStyle boardStrategy;
-
     // This is not used , will be used in MVC implementation
     private static String synthFile = "buttonSkin.xml";
-
     /**
      * This is constuctor of this class This is invoked from StrategyPatternDemo
      * This constructor creates the board in GUI .
@@ -40,11 +35,8 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
         frame = new JFrame("Tic Tac Toe");
         reset = new JButton("Reset");
         undo = new JButton("UNDO");
-       
-        
-       
-        
-
+        display = new JTextField();
+        display.setEditable(false);
         // CheckboxGroup cbg = new CheckboxGroup();
         strategy1 = new JButton("Board Style 1");
         strategy2 = new JButton("Board Style 2");
@@ -54,16 +46,13 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
         frame.add(strategy2);
         strategy2.addActionListener(this);
         strategy1.addActionListener(this);
-
-
-
+        display.setText("Player X turn");
         frame.setLayout(null);
         frame.setSize(330, 450);
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }// eof constructor
-
     /**
      * This method is implementation of ActionListener interface extended by this
      * class.
@@ -72,33 +61,26 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        
         JButton check = (JButton) (e.getSource());
         if (check.getText() == "Board Style 1") {
             strategyType = "style1";
             boardStrategy = new FirstBoardStyle();
-
         } else if (check.getText() == "Board Style 2") {
             strategyType = "style2";
-
             boardStrategy = new SecondBoardStyle();
         }
         boardStrategy.doOperation();
         frame.remove(strategy1);
         frame.remove(strategy2);
         frame.repaint(0, 0, 330, 450);
-
         displayBoard();
-       
     }
-
     /**
      *
      * This method is the implementation of the ItemListener. This method is invoked
      * when the user selects radio button based on style requirement.
      *
      */
-   
 
     /**
      * This method is called from itemStateChanged after user selects the board
@@ -127,7 +109,6 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
             b[i].setOpaque(true);
             b[i].setBackground(boardStrategy.getBtnColor());
             // b[i].setBackground(Color.ORANGE);
-
             if (j == 3) {
                 j = 0;
                 y += 100;
@@ -135,7 +116,6 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
             }
             b[i].setBounds(x, y, 100, 100);
             frame.add(b[i]);
-
            // button = b[i]
             b[i].addActionListener(new ActionListener()
             {
@@ -161,19 +141,16 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
                      {
                          undo.setEnabled(false);
                          limit = 0;
+                         model.changePlayer();
+                         JOptionPane.showMessageDialog(null, "The Undo limit for Player " + model.getCurrPlayer() + " reached, cannot undo now");
+                         model.changePlayer();
                      }
                      else
                          undo.setEnabled(true);
                 }
             }
         );
-           
-            
-           
         } // eof for
-        
-        
-    
         reset = new JButton("RESET");
         reset.setBounds(50, 350, 100, 50);
         undo.setBounds(200, 350, 100, 50);
@@ -190,9 +167,7 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
         });
         frame.add(reset);
         reset.addActionListener(new ActionListener()
-                
                 {
-
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         model = new Model();
@@ -202,9 +177,6 @@ public class TicTacToeBoard extends JFrame implements ActionListener {
                         limit = 0;
                         undo.setEnabled(true);
                     }
-            
                 });
-
     }// eof showButton
-
 }
